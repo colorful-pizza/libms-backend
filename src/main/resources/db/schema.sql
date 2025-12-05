@@ -1,0 +1,42 @@
+-- Schema definition for libms
+CREATE DATABASE IF NOT EXISTS libms DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE libms;
+
+DROP TABLE IF EXISTS borrow_record;
+DROP TABLE IF EXISTS book;
+DROP TABLE IF EXISTS `user`;
+
+CREATE TABLE `user` (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(64) NOT NULL,
+    full_name VARCHAR(100) NOT NULL,
+    role VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE book (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(200) NOT NULL,
+    author VARCHAR(100) NOT NULL,
+    isbn VARCHAR(20) NOT NULL UNIQUE,
+    category VARCHAR(50) NOT NULL,
+    total_copies INT NOT NULL,
+    available_copies INT NOT NULL,
+    published_date DATE,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE borrow_record (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user_id BIGINT NOT NULL,
+    book_id BIGINT NOT NULL,
+    borrow_date DATE NOT NULL,
+    due_date DATE NOT NULL,
+    return_date DATE,
+    status VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES `user` (id),
+    FOREIGN KEY (book_id) REFERENCES book (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
