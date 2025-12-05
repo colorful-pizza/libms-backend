@@ -3,6 +3,7 @@
 Libms 是一个基于 Spring Boot 的图书馆管理后端，提供用户、图书与借阅的完整接口与权限控制，支持 JWT 登录认证与 OpenAPI 文档展示。
 
 ## 特性
+
 - 认证与授权：JWT Bearer Token 登录，基于角色的访问控制
 - 业务模块：用户、图书（库存管理）、借阅与还书（自动更新可用库存）
 - 统一响应：符合阿里手册风格的统一 JSON 返回结构
@@ -10,19 +11,23 @@ Libms 是一个基于 Spring Boot 的图书馆管理后端，提供用户、图�
 - 数据初始化：`schema.sql` 与 `data.sql` 便于快速启动
 
 ## 技术栈
+
 - Java 17、Spring Boot
 - Spring Security（无状态，JWT）、MyBatis
 - JJWT、BCrypt
 - Springdoc OpenAPI
 
 ## 快速开始（使用 Releases JAR）
+
 你已可直接使用 Release 里的可执行 JAR 运行服务：
 
-1) 准备环境
+1. 准备环境
+
 - 安装并配置 Java 17+（`java -version` 确认）
 - 可选：准备外部数据库并配置连接（默认使用项目 `application.yml` 的设置）
 
-2) 运行（Windows PowerShell 示例）
+2. 运行（Windows PowerShell 示例）
+
 ```powershell
 # 方式 A：默认配置运行
 java -jar .\libms-<version>.jar
@@ -31,22 +36,27 @@ java -jar .\libms-<version>.jar
 java -jar .\libms-<version>.jar --server.port=8080 --spring.profiles.active=prod
 ```
 
-3) 访问
+3. 访问
+
 - 接口根地址：`http://localhost:8080/`
 - OpenAPI 文档（Swagger UI）：`http://localhost:8080/swagger-ui/index.html`
 
 ## 配置
+
 应用配置位于 `src/main/resources/application.yml`（JAR 内也包含）。常用覆盖项：
+
 - `server.port`：服务端口
 - `spring.datasource.*`：数据库连接（URL、用户名、密码、驱动）
 - `jwt.*`：密钥、过期时间等（如已外置配置）
 
 运行时可通过命令行覆盖：
+
 ```powershell
 java -jar .\libms-<version>.jar --server.port=8081 --spring.datasource.url="jdbc:mysql://localhost:3306/libms"
 ```
 
 ## 账号与权限
+
 - 初始化数据通常包含 `admin` 管理员与 `user` 普通用户（详见 `data.sql`）
 - 认证：`POST /login` 获取 JWT；其它接口除注册等少数公开端点外均需认证
 - 权限：
@@ -54,10 +64,12 @@ java -jar .\libms-<version>.jar --server.port=8081 --spring.datasource.url="jdbc
   - 管理操作（`/users/**`、`/books/**` 的写操作）仅限 `ADMIN`
 
 ## 接口文档
+
 - 详尽的接口说明请见仓库根目录的 `API_DOCS.md`
 - 在线 Swagger UI 渲染基于 Springdoc，启动后访问 `swagger-ui/index.html`
 
 ## 部署建议
+
 - 生产环境使用外部数据库与独立配置文件（`--spring.profiles.active=prod`）
 - 使用系统服务或容器编排：
   - Windows 服务：用 NSSM 或 `sc.exe` 注册为服务
@@ -65,6 +77,7 @@ java -jar .\libms-<version>.jar --server.port=8081 --spring.datasource.url="jdbc
 - 日志与监控：建议启用 `actuator` 并收集应用日志
 
 ### Docker 示例（可选）
+
 ```dockerfile
 FROM eclipse-temurin:17-jre
 WORKDIR /app
@@ -74,7 +87,9 @@ ENTRYPOINT ["java","-jar","/app/app.jar"]
 ```
 
 ## 开发与构建（可选）
+
 如需本地构建：
+
 ```powershell
 # 在项目根目录执行
 mvn clean package -DskipTests
@@ -82,8 +97,10 @@ mvn clean package -DskipTests
 ```
 
 ## 许可证
+
 本仓库未显式声明开源许可证，默认保留所有权利。如需开源授权，请在 `LICENSE` 中添加相应条款。
 
 ## 致谢
+
 - Spring 社区与 Springdoc 项目
 - JJWT 与 MyBatis 社区
