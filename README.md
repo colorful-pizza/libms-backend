@@ -55,6 +55,23 @@ java -jar .\libms-<version>.jar --server.port=8080 --spring.profiles.active=prod
 java -jar .\libms-<version>.jar --server.port=8081 --spring.datasource.url="jdbc:mysql://localhost:3306/libms"
 ```
 
+## 数据库（MySQL 8.0）
+
+- 要求：使用 MySQL 8.0 及以上版本。
+- 建库建议：创建数据库例如 `libms`，字符集使用 `utf8mb4`、排序规则 `utf8mb4_general_ci`。
+- 配置位置：`src/main/resources/application.yml` 中的 `spring.datasource.*`。
+  - `spring.datasource.url`: 例如
+    `jdbc:mysql://localhost:3306/libms?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true`
+  - `spring.datasource.username`: 数据库用户名
+  - `spring.datasource.password`: 数据库密码
+  - `spring.datasource.driver-class-name`: `com.mysql.cj.jdbc.Driver`
+- 初始化脚本（库表与样例数据）：
+  - 位置：`src/main/resources/db/schema.sql` 和 `src/main/resources/db/data.sql`
+  - 默认从 `classpath:db` 加载；如需显式开启或调整位置，可在 `application.yml` 中设置：
+    - `spring.sql.init.mode=always`
+    - `spring.sql.init.schema-locations=classpath:db/schema.sql`
+    - `spring.sql.init.data-locations=classpath:db/data.sql`
+
 ## 账号与权限
 
 - 初始化数据通常包含 `admin` 管理员与 `user` 普通用户（详见 `data.sql`）
